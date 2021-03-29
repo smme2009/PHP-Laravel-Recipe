@@ -25,7 +25,7 @@ class Register extends Controller{
                 'message' => implode("\n", $validator->errors()->all()),
             ];
 
-            return Response::json($responseDatas, 200);
+            return Response::json($responseDatas, 400);
         }
 
         $result = $this->createUser($requestData);
