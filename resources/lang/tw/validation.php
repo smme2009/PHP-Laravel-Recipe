@@ -148,5 +148,17 @@ return [
 
     'attributes' => [
         'password' => '密碼',
+        'name' => '名稱',
+        'description' => '說明',
+        'send_time' => '花費時間',
+        'ingredients' => '食材',
+        'steps' => '步驟',
+        'ingredients.*.name' => '名稱',
+        'ingredients.*.quantity' => '數量',
+        'ingredients.*.unit' => '單位',
+        'ingredients.*.description' => '說明',
+        'steps.*.step' => '步驟',
+        'steps.*.image' => '圖片',
+        'steps.*.description' => '說明',
     ],
 ];

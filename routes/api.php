@@ -12,4 +12,13 @@ Route::group(['middleware' => 'api', 'namespace' => 'Api'], function($router){
             Route::post('userinfo', 'Auth@getUserInfo');
         });
     });
+
+    Route::group(['middleware' => 'auth:api'], function($router){
+        Route::group(['namespace' => 'Recipe', 'prefix' => 'recipe'], function($router){
+            Route::post('', 'Recipe@createRecipe');
+            Route::put('{recipeId}', 'Recipe@updateRecipe');
+            Route::delete('{recipeId}', 'Recipe@deleteRecipe');
+            Route::get('{recipeId}', 'Recipe@getRecipe');
+        });
+    });
 });
