@@ -19,6 +19,12 @@ Route::group(['middleware' => 'api', 'namespace' => 'Api'], function($router){
             Route::put('{recipeId}', 'Recipe@updateRecipe');
             Route::delete('{recipeId}', 'Recipe@deleteRecipe');
             Route::get('{recipeId}', 'Recipe@getRecipe');
+
+            Route::group(['prefix' => '{recipeId}/valuation'], function($router){
+                Route::post('', 'RecipeValuation@createRecipeValuation');
+                Route::delete('{valuationId}', 'RecipeValuation@deleteRecipeValuation');
+                Route::get('', 'RecipeValuation@getRecipeValuation');
+            });
         });
     });
 });

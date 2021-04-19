@@ -16,4 +16,9 @@ class Recipe extends Model{
         $table = __CLASS__ . 'Step';
         return $this->hasMany($table);
     }
+
+    public function valuation(){
+        $table = __CLASS__ . 'Valuation';
+        return $this->hasMany($table);
+    }
 }
