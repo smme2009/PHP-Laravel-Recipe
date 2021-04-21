@@ -26,4 +26,9 @@ class Recipe extends Model{
         $table = __CLASS__ . 'Subscription';
         return $this->hasMany($table);
     }
+
+    public function metric(){
+        $table = __CLASS__ . 'Metric';
+        return $this->hasMany($table);
+    }
 }

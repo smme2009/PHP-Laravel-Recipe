@@ -30,6 +30,11 @@ Route::group(['middleware' => 'api', 'namespace' => 'Api'], function($router){
                 Route::post('', 'RecipeSubscription@createRecipeSubscription');
                 Route::delete('', 'RecipeSubscription@deleteRecipeSubscription');
             });
+            
+            Route::group(['prefix' => '{recipeId}/metric'], function($router){
+                Route::post('', 'RecipeMetric@createRecipeMetric');
+                Route::delete('', 'RecipeMetric@deleteRecipeMetric');
+            });
         });
     });
 });
