@@ -71,14 +71,12 @@ class RecipeValuation extends Controller
         
         $responseDatas = [];
         foreach($valuation as $value){
-            $user = $value->user;
-
             $responseDatas[] = [
                 'id' => $value->id,
                 'description' => $value->description,
                 'user' => [
-                    'name' => $user->name,
-                    'image' => $user->image
+                    'name' => $value->user->name,
+                    'image' => $value->user->image
                 ],
                 'create_time' => $value->created_at,
             ];

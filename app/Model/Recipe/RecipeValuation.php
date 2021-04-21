@@ -13,6 +13,10 @@ class RecipeValuation extends Model{
         'description',
     ];
 
+    protected $with = [
+        'user'
+    ];
+
     public function user(){
         return $this->belongsTo('App\User', 'user_id');
     }
