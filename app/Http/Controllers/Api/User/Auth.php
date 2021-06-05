@@ -19,7 +19,6 @@ class Auth extends Controller
 
         if($apiKey == false){
             $responseDatas = [
-                'state' => 'fail',
                 'message' => '登入失敗',
             ];
 
@@ -27,7 +26,6 @@ class Auth extends Controller
         }
 
         $responseDatas = [
-            'state' => 'success',
             'message' => '登入成功',
             'api_key' => $apiKey,
         ];
@@ -39,7 +37,6 @@ class Auth extends Controller
         auth()->logout();
         
         $responseDatas = [
-            'state' => 'success',
             'message' => '登出成功',
         ];
 

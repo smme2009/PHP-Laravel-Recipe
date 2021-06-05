@@ -21,18 +21,16 @@ class Register extends Controller{
 
         if($validator->fails() == true){
             $responseDatas = [
-                'state' => 'fail',
                 'message' => implode("\n", $validator->errors()->all()),
             ];
 
-            return Response::json($responseDatas, 400);
+            return Response::json($responseDatas, 412);
         }
 
         $result = $this->createUser($requestData);
 
         if($result == false){
             $responseDatas = [
-                'state' => 'fail',
                 'message' => '註冊帳號失敗',
             ];
 
@@ -40,7 +38,6 @@ class Register extends Controller{
         }
 
         $responseDatas = [
-            'state' => 'success',
             'message' => '註冊帳號成功',
             'api_key' => $this->getApiKey($requestData),
         ];
