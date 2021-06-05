@@ -16,9 +16,11 @@ Route::group(['middleware' => 'api', 'namespace' => 'Api'], function($router){
     Route::group(['middleware' => 'auth:api'], function($router){
         Route::group(['namespace' => 'Recipe', 'prefix' => 'recipe'], function($router){
             Route::post('', 'Recipe@createRecipe');
-            Route::put('{recipeId}', 'Recipe@updateRecipe');
-            Route::delete('{recipeId}', 'Recipe@deleteRecipe');
-            Route::get('{recipeId}', 'Recipe@getRecipe');
+            Route::put('{recipeId}', 'Recipe@updateRecipe')->where('recipeId', '[0-9]+');
+            Route::delete('{recipeId}', 'Recipe@deleteRecipe')->where('recipeId', '[0-9]+');
+            Route::get('{recipeId}', 'Recipe@getRecipe')->where('recipeId', '[0-9]+');
+            
+            Route::get('search', 'RecipeSearch@searchRecipe');
 
             Route::group(['prefix' => '{recipeId}/valuation'], function($router){
                 Route::post('', 'RecipeValuation@createRecipeValuation');
