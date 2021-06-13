@@ -22,18 +22,18 @@ Route::group(['middleware' => 'api', 'namespace' => 'Api'], function($router){
             
             Route::get('search', 'RecipeSearch@searchRecipe');
 
-            Route::group(['prefix' => '{recipeId}/valuation'], function($router){
+            Route::group(['prefix' => 'valuation/{recipeId}'], function($router){
                 Route::post('', 'RecipeValuation@createRecipeValuation');
                 Route::delete('{valuationId}', 'RecipeValuation@deleteRecipeValuation');
                 Route::get('', 'RecipeValuation@getRecipeValuation');
             });
 
-            Route::group(['prefix' => '{recipeId}/subscription'], function($router){
+            Route::group(['prefix' => 'subscription/{recipeId}'], function($router){
                 Route::post('', 'RecipeSubscription@createRecipeSubscription');
                 Route::delete('', 'RecipeSubscription@deleteRecipeSubscription');
             });
             
-            Route::group(['prefix' => '{recipeId}/metric'], function($router){
+            Route::group(['prefix' => 'metric/{recipeId}'], function($router){
                 Route::post('', 'RecipeMetric@createRecipeMetric');
                 Route::delete('', 'RecipeMetric@deleteRecipeMetric');
             });
