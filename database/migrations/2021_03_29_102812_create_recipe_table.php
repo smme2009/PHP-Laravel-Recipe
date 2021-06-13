@@ -16,7 +16,8 @@ class CreateRecipeTable extends Migration{
             $table->bigInteger('user_id');
             $table->string('name');
             $table->text('description');
-            $table->integer('send_time');
+            $table->string('star');
+            $table->text('image');
             $table->timestamps();
 
             $table->index('user_id');

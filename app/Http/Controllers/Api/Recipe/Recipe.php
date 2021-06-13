@@ -8,6 +8,7 @@ use Response;
 use Validator;
 use DB;
 use ModelRecope;
+use Storage;
 
 class Recipe extends Controller
 {
@@ -85,14 +86,21 @@ class Recipe extends Controller
             return Response::json(['message' => '查無此食譜'], 404);
         }
 
+        $stepDatas = $model->step;
+        foreach($stepDatas as $key => $value){
+            $stepDatas[$key]->image = Storage::url($value->image);
+        }
+
         $responseDatas = [
             'id' => $recipeId,
             'name' => $model->name,
+            'star' => $model->star,
             'description' => $model->description,
+            'image' => Storage::url($model->image),
             'create_time' => $model->created_at,
             'update_time' => $model->updated_at,
             'ingredients' => $model->ingredient,
-            'steps' => $model->step,
+            'steps' => $stepDatas,
         ];
 
         return Response::json($responseDatas, 200);
@@ -111,7 +119,9 @@ class Recipe extends Controller
             'name' => ['required', 'string'],
             'description' => ['required', 'string'],
             'send_time' => ['required', 'integer'],
+            'star' => ['required'],
             'ingredients' => ['required', 'array'],
+            'image' => ['required'],
             'steps' => ['required', 'array'],
             'ingredients.*.name' => ['required', 'string'],
             'ingredients.*.quantity' => ['required', 'integer'],
@@ -132,17 +142,27 @@ class Recipe extends Controller
             $model->user_id = auth()->id();
             $model->name = $requestDatas['name'];
             $model->description = $requestDatas['description'];
-            $model->send_time = $requestDatas['send_time'];
-
+            $model->star = $requestDatas['star'];
+            $model->image = $this->setFile($requestDatas['image']);
             $model->save();
+
+            foreach($requestDatas['steps'] as $key => $value){
+                $requestDatas['steps'][$key]['image'] = $this->setFile($value['image']);
+            }
+
             $model->ingredient()->createMany($requestDatas['ingredients']);
             $model->step()->createMany($requestDatas['steps']);
 
             DB::commit();
-            return true;
+            return $model->id;
         }catch(Exception $e){
             DB::rollback();
             return false;
         }
+    }
+
+    private function setFile($file){
+        $fileName = Storage::disk('public')->put(null, $file);
+        return $fileName;
     }
 }
