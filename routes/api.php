@@ -15,6 +15,7 @@ Route::group(['middleware' => 'api', 'namespace' => 'Api'], function($router){
 
     Route::group(['middleware' => 'auth:api'], function($router){
         Route::group(['namespace' => 'Recipe', 'prefix' => 'recipes'], function($router){
+            Route::get('', 'Recipe@getRecipeList');
             Route::post('', 'Recipe@createRecipe');
             Route::put('{recipeId}', 'Recipe@updateRecipe')->where('recipeId', '[0-9]+');
             Route::delete('{recipeId}', 'Recipe@deleteRecipe')->where('recipeId', '[0-9]+');

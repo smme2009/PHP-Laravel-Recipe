@@ -16,6 +16,12 @@ class Recipe extends Controller
 
     }
 
+    public function getRecipeList(){
+        $responseDatas = ModelRecope::with(['ingredient', 'step'])->get();
+
+        return Response::json($responseDatas, 200);
+    }
+
     public function createRecipe(){
         $requestDatas = $this->getRequestDatas();
 
