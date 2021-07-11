@@ -149,11 +149,11 @@ class Recipe extends Controller
             $model->name = $requestDatas['name'];
             $model->description = $requestDatas['description'];
             $model->star = $requestDatas['star'];
-            $model->image = $this->setFile($requestDatas['image']);
+            $model->image = $this->saveBase64File($requestDatas['image']);
             $model->save();
 
             foreach($requestDatas['steps'] as $key => $value){
-                $requestDatas['steps'][$key]['image'] = $this->setFile($value['image']);
+                $requestDatas['steps'][$key]['image'] = $this->saveBase64File($value['image']);
             }
 
             $model->ingredient()->createMany($requestDatas['ingredients']);
@@ -167,8 +167,15 @@ class Recipe extends Controller
         }
     }
 
-    private function setFile($file){
-        $fileName = Storage::disk('public')->put(null, $file);
-        return $fileName;
+    private function saveBase64File($fullString){
+        preg_match('/^data:image\/(.*);base64,(.*)$/', $fullString, $data);
+        list($fullString, $extension, $string) = $data;
+
+        $file = base64_decode($string);
+        $filePath = Str::random(40) . $extension;
+
+        Storage::disk('public')->put($filePath, $file);
+
+        return $filePath;
     }
 }
