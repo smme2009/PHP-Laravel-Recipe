@@ -48,7 +48,7 @@ class Register extends Controller{
     private function getValidator($requestData){
         $validator = Validator::make($requestData, [
             'email' => ['required', 'email', 'unique:users,email'],
-            'password' => ['required', 'string', 'alpha_num', 'min:8', 'max:20'],
+            'password' => ['required', 'string', 'alpha_num', 'min:6', 'max:16'],
         ]);
        
         return $validator;
