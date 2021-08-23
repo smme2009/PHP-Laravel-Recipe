@@ -33,6 +33,7 @@ Route::group(['middleware' => 'api', 'namespace' => 'Api'], function($router){
             });
 
             Route::group(['prefix' => 'subscription/{recipeId}'], function($router){
+                Route::get('', 'RecipeSubscription@getRecipeSubscriptionList');
                 Route::post('', 'RecipeSubscription@createRecipeSubscription');
                 Route::delete('', 'RecipeSubscription@deleteRecipeSubscription');
             });
