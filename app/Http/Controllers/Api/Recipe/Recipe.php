@@ -180,7 +180,7 @@ class Recipe extends Controller
         list($fullString, $extension, $string) = $data;
 
         $file = base64_decode($string);
-        $filePath = Str::random(40) . $extension;
+        $filePath = Str::random(40) . ".{$extension}";
 
         Storage::disk('public')->put($filePath, $file);
 
