@@ -7,7 +7,7 @@ Route::group(['middleware' => 'api', 'namespace' => 'Api'], function($router){
         Route::post('register', 'Register@registerUser');
         Route::post('login', 'Auth@login');
 
-        Route::group(['middleware' => 'auth:api'], function($router){
+        Route::group(['middleware' => 'jwt.auth'], function($router){
             Route::post('logout', 'Auth@logout');
             Route::post('userinfo', 'Auth@getUserInfo');
         });
@@ -17,7 +17,7 @@ Route::group(['middleware' => 'api', 'namespace' => 'Api'], function($router){
         Route::get('', 'Recipe@getRecipeList');
     });
 
-    Route::group(['middleware' => 'auth:api'], function($router){
+    Route::group(['middleware' => 'jwt.auth'], function($router){
         Route::group(['namespace' => 'Recipe', 'prefix' => 'recipes'], function($router){
             Route::post('', 'Recipe@createRecipe');
             Route::put('{recipeId}', 'Recipe@updateRecipe')->where('recipeId', '[0-9]+');
