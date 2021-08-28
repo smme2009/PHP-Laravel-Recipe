@@ -23,6 +23,14 @@ class Recipe extends Controller
         return Response::json($responseDatas, 200);
     }
 
+    public function getUserRecipeList(){
+        $responseDatas = ModelRecope::with(['ingredient', 'step'])
+            ->where('user_id', auth()->id())
+            ->get();
+
+        return Response::json($responseDatas, 200);
+    }
+
     public function createRecipe(){
         $requestDatas = $this->getRequestDatas();
 

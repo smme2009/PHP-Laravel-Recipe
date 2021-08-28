@@ -19,6 +19,10 @@ Route::group(['middleware' => 'api', 'namespace' => 'Api'], function($router){
     });
 
     Route::group(['middleware' => 'jwt.auth'], function($router){
+        Route::group(['prefix' => 'user'], function($router){
+            Route::get('recipes', 'Recipe\Recipe@getUserRecipeList');
+        });
+        
         Route::group(['namespace' => 'Recipe', 'prefix' => 'recipes'], function($router){
             Route::post('', 'Recipe@createRecipe');
             Route::put('{recipeId}', 'Recipe@updateRecipe')->where('recipeId', '[0-9]+');
