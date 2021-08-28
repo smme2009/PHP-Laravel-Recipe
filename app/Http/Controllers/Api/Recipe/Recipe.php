@@ -9,6 +9,7 @@ use Validator;
 use DB;
 use ModelRecope;
 use Storage;
+use Str;
 
 class Recipe extends Controller
 {
