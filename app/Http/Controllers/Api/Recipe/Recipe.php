@@ -133,7 +133,6 @@ class Recipe extends Controller
         $validator = Validator::make($requestDatas, [
             'name' => ['required', 'string'],
             'description' => ['required', 'string'],
-            'send_time' => ['required', 'integer'],
             'star' => ['required'],
             'ingredients' => ['required', 'array'],
             'image' => ['required'],
