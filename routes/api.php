@@ -21,6 +21,7 @@ Route::group(['middleware' => 'api', 'namespace' => 'Api'], function($router){
     Route::group(['middleware' => 'jwt.auth'], function($router){
         Route::group(['prefix' => 'user'], function($router){
             Route::get('recipes', 'Recipe\Recipe@getUserRecipeList');
+            Route::get('subscribes', 'Recipe\RecipeSubscription@getUserRecipeSubscriptionList');
         });
         
         Route::group(['namespace' => 'Recipe', 'prefix' => 'recipes'], function($router){
@@ -37,7 +38,6 @@ Route::group(['middleware' => 'api', 'namespace' => 'Api'], function($router){
             });
 
             Route::group(['prefix' => 'subscription/{recipeId}'], function($router){
-                Route::get('', 'RecipeSubscription@getRecipeSubscriptionList');
                 Route::post('', 'RecipeSubscription@createRecipeSubscription');
                 Route::delete('', 'RecipeSubscription@deleteRecipeSubscription');
             });

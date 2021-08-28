@@ -12,9 +12,9 @@ class RecipeSubscription extends Controller
 
     }
 
-    public function getRecipeSubscriptionList(){
+    public function getUserRecipeSubscriptionList(){
         $responseDatas = ModelRecope::with(['ingredient', 'step'])
-            ->where('users_id', auth()->id();)
+            ->where('user_id', auth()->id())
             ->get();
         
         return Response::json($responseDatas, 200);
