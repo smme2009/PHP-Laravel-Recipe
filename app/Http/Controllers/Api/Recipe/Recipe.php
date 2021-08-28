@@ -123,8 +123,8 @@ class Recipe extends Controller
 
     private function getRequestDatas(){
         $requestDatas = Request::all();
-        $requestDatas['ingredients'] = json_decode($requestDatas['ingredients'] ?? '', true);
-        $requestDatas['steps'] = json_decode($requestDatas['steps'] ?? '', true);
+        $requestDatas['ingredients'] = (array)$requestDatas['ingredients'];
+        $requestDatas['steps'] = (array)$requestDatas['steps'];
 
         return $requestDatas;
     }
