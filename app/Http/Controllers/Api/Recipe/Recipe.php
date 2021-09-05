@@ -20,6 +20,10 @@ class Recipe extends Controller
     public function getRecipeList(){
         $responseDatas = ModelRecope::with(['ingredient', 'step'])->get();
 
+        foreach($responseDatas as $key => $value){
+            $responseDatas[$key] = $this->setModel($value);
+        }
+
         return Response::json($responseDatas, 200);
     }
 
@@ -27,6 +31,10 @@ class Recipe extends Controller
         $responseDatas = ModelRecope::with(['ingredient', 'step'])
             ->where('user_id', auth()->id())
             ->get();
+
+        foreach($responseDatas as $key => $value){
+            $responseDatas[$key] = $this->setModel($value);
+        }
 
         return Response::json($responseDatas, 200);
     }
@@ -101,22 +109,7 @@ class Recipe extends Controller
             return Response::json(['message' => '查無此食譜'], 404);
         }
 
-        $stepDatas = $model->step;
-        foreach($stepDatas as $key => $value){
-            $stepDatas[$key]->image = Storage::url($value->image);
-        }
-
-        $responseDatas = [
-            'id' => $recipeId,
-            'name' => $model->name,
-            'star' => $model->star,
-            'description' => $model->description,
-            'image' => Storage::url($model->image),
-            'create_time' => $model->created_at,
-            'update_time' => $model->updated_at,
-            'ingredients' => $model->ingredient,
-            'steps' => $stepDatas,
-        ];
+        $model = $this->setModel($model);
 
         return Response::json($responseDatas, 200);
     }
@@ -185,5 +178,15 @@ class Recipe extends Controller
         Storage::disk('public')->put($filePath, $file);
 
         return $filePath;
+    }
+
+    private function setModel($model){
+        $model->image = asset(Storage::url($model->image));
+        
+        foreach($model->step as $key => $value){
+            $model->step[$key]->image = asset(Storage::url($value->image));
+        }
+
+        return $model;
     }
 }
