@@ -169,14 +169,19 @@ class Recipe extends Controller
     }
 
     private function saveBase64File($fullString){
-        preg_match('/^data:image\/(.*);base64,(.*)$/', $fullString, $data);
-        list($fullString, $extension, $string) = $data;
+        if(filter_var('', FILTER_VALIDATE_URL)){
+            preg_match('/^.*storage\/(.*)$/', $fullString, $data);
+            list($fullString, $filePath) = $data;
+        }else{
+            preg_match('/^data:image\/(.*);base64,(.*)$/', $fullString, $data);
+            list($fullString, $extension, $string) = $data;
 
-        $file = base64_decode($string);
-        $filePath = Str::random(40) . ".{$extension}";
+            $file = base64_decode($string);
+            $filePath = Str::random(40) . ".{$extension}";
 
-        Storage::disk('public')->put($filePath, $file);
-
+            Storage::disk('public')->put($filePath, $file);
+        }
+       
         return $filePath;
     }
 
