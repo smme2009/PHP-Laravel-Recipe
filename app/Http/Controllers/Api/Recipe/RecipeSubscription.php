@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Recipe;
 
 use App\Http\Controllers\Controller;
+use App;
 use Response;
 use ModelRecope;
 
@@ -16,6 +17,12 @@ class RecipeSubscription extends Controller
         $responseDatas = ModelRecope::with(['ingredient', 'step'])
             ->where('user_id', auth()->id())
             ->get();
+
+        $recipeController = App::make(__NAMESPACE__ . '\Recipe');
+
+        foreach($responseDatas as $key => $value){
+            $responseDatas[$key] = $recipeController->setModel($value);
+        }
         
         return Response::json($responseDatas, 200);
     }

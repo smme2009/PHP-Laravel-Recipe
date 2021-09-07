@@ -185,7 +185,7 @@ class Recipe extends Controller
         return $filePath;
     }
 
-    private function setModel($model){
+    public function setModel($model){
         $model->image = asset(Storage::url($model->image));
         
         foreach($model->step as $key => $value){
