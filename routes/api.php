@@ -18,13 +18,13 @@ Route::group(['middleware' => 'api', 'namespace' => 'Api'], function($router){
         Route::get('{recipeId}', 'Recipe@getRecipe')->where('recipeId', '[0-9]+');
     });
 
-    Route::group(['middleware' => 'jwt.auth'], function($router){
+    Route::group(['namespace' => 'Recipe', 'middleware' => 'jwt.auth'], function($router){
         Route::group(['prefix' => 'user'], function($router){
-            Route::get('recipes', 'Recipe\Recipe@getUserRecipeList');
-            Route::get('subscribes', 'Recipe\RecipeSubscription@getUserRecipeSubscriptionList');
+            Route::get('recipes', 'Recipe@getUserRecipeList');
+            Route::get('subscribes', 'RecipeSubscription@getUserRecipeSubscriptionList');
         });
         
-        Route::group(['namespace' => 'Recipe', 'prefix' => 'recipes'], function($router){
+        Route::group(['prefix' => 'recipes'], function($router){
             Route::post('', 'Recipe@createRecipe');
             Route::put('{recipeId}', 'Recipe@updateRecipe')->where('recipeId', '[0-9]+');
             Route::delete('{recipeId}', 'Recipe@deleteRecipe')->where('recipeId', '[0-9]+');
