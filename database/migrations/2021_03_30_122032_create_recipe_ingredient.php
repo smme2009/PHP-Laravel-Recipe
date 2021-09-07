@@ -17,7 +17,7 @@ class CreateRecipeIngredient extends Migration{
             $table->string('name');
             $table->integer('quantity');
             $table->string('unit');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->timestamps();
 
             $table->index('recipe_id');

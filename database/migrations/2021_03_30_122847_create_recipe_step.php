@@ -16,7 +16,7 @@ class CreateRecipeStep extends Migration{
             $table->bigInteger('recipe_id');
             $table->integer('step');
             $table->text('image');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->timestamps();
 
             $table->index('recipe_id');
