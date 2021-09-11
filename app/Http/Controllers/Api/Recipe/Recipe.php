@@ -116,8 +116,8 @@ class Recipe extends Controller
 
     private function getRequestDatas(){
         $requestDatas = Request::all();
-        $requestDatas['ingredients'] = (array)$requestDatas['ingredients'];
-        $requestDatas['steps'] = (array)$requestDatas['steps'];
+        $requestDatas['ingredient'] = (array)$requestDatas['ingredient'];
+        $requestDatas['step'] = (array)$requestDatas['step'];
 
         return $requestDatas;
     }
@@ -127,16 +127,16 @@ class Recipe extends Controller
             'name' => ['required', 'string'],
             'description' => ['required', 'string'],
             'star' => ['required'],
-            'ingredients' => ['required', 'array'],
+            'ingredient' => ['required', 'array'],
             'image' => ['required'],
-            'steps' => ['required', 'array'],
-            'ingredients.*.name' => ['required', 'string'],
-            'ingredients.*.quantity' => ['required', 'integer'],
-            'ingredients.*.unit' => ['required', 'string'],
-            'ingredients.*.description' => ['string'],
-            'steps.*.step' => ['required', 'integer'],
-            'steps.*.image' => ['required'],
-            'steps.*.description' => ['required', 'string'],
+            'step' => ['required', 'array'],
+            'ingredient.*.name' => ['required', 'string'],
+            'ingredient.*.quantity' => ['required', 'integer'],
+            'ingredient.*.unit' => ['required', 'string'],
+            'ingredient.*.description' => ['string'],
+            'step.*.step' => ['required', 'integer'],
+            'step.*.image' => ['required'],
+            'step.*.description' => ['required', 'string'],
         ]);
        
         return $validator;
@@ -153,12 +153,12 @@ class Recipe extends Controller
             $model->image = $this->saveBase64File($requestDatas['image']);
             $model->save();
 
-            foreach($requestDatas['steps'] as $key => $value){
-                $requestDatas['steps'][$key]['image'] = $this->saveBase64File($value['image']);
+            foreach($requestDatas['step'] as $key => $value){
+                $requestDatas['step'][$key]['image'] = $this->saveBase64File($value['image']);
             }
 
-            $model->ingredient()->createMany($requestDatas['ingredients']);
-            $model->step()->createMany($requestDatas['steps']);
+            $model->ingredient()->createMany($requestDatas['ingredient']);
+            $model->step()->createMany($requestDatas['step']);
 
             DB::commit();
             return $model->id;
