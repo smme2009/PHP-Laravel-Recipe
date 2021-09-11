@@ -111,7 +111,7 @@ class Recipe extends Controller
 
         $model = $this->setModel($model);
 
-        return Response::json($responseDatas, 200);
+        return Response::json($model, 200);
     }
 
     private function getRequestDatas(){
