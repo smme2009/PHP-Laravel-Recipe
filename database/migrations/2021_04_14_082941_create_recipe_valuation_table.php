@@ -4,20 +4,23 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersTable extends Migration{
+class CreateRecipeValuationTable extends Migration{
     /**
      * Run the migrations.
      *
      * @return void
      */
     public function up(){
-        Schema::create('users', function(Blueprint $table){
+        Schema::create('recipe_valuation', function(Blueprint $table){
             $table->bigIncrements('id');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->string('name')->nullable();
-            $table->text('image')->nullable();
+            $table->bigInteger('recipe_id');
+            $table->bigInteger('user_id');
+            $table->string('score');
+            $table->text('description');
             $table->timestamps();
+
+            $table->index('recipe_id');
+            $table->index('user_id');
         });
     }
 
@@ -27,6 +30,6 @@ class CreateUsersTable extends Migration{
      * @return void
      */
     public function down(){
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('recipe_valuation');
     }
 }

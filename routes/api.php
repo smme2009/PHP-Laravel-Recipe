@@ -2,17 +2,50 @@
 
 use Illuminate\Http\Request;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+Route::group(['middleware' => 'api', 'namespace' => 'Api'], function($router){
+    Route::group(['namespace' => 'User'], function($router){
+        Route::post('register', 'Register@registerUser');
+        Route::post('login', 'Auth@login');
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+        Route::group(['middleware' => 'jwt.auth'], function($router){
+            Route::post('logout', 'Auth@logout');
+            Route::post('userinfo', 'Auth@getUserInfo');
+        });
+    });
+
+    Route::group(['namespace' => 'Recipe', 'prefix' => 'recipes'], function($router){
+        Route::get('', 'Recipe@getRecipeList');
+        Route::get('{recipeId}', 'Recipe@getRecipe')->where('recipeId', '[0-9]+');
+    });
+
+    Route::group(['namespace' => 'Recipe', 'middleware' => 'jwt.auth'], function($router){
+        Route::group(['prefix' => 'user'], function($router){
+            Route::get('recipes', 'Recipe@getUserRecipeList');
+            Route::get('subscribes', 'RecipeSubscription@getUserRecipeSubscriptionList');
+        });
+        
+        Route::group(['prefix' => 'recipes'], function($router){
+            Route::post('', 'Recipe@createRecipe');
+            Route::put('{recipeId}', 'Recipe@updateRecipe')->where('recipeId', '[0-9]+');
+            Route::delete('{recipeId}', 'Recipe@deleteRecipe')->where('recipeId', '[0-9]+');
+            
+            Route::get('search', 'RecipeSearch@searchRecipe');
+
+            Route::group(['prefix' => 'valuation/{recipeId}'], function($router){
+                Route::post('', 'RecipeValuation@createRecipeValuation');
+                Route::delete('{valuationId}', 'RecipeValuation@deleteRecipeValuation');
+                Route::get('', 'RecipeValuation@getRecipeValuation');
+            });
+
+            Route::group(['prefix' => 'subscription/{recipeId}'], function($router){
+                Route::post('', 'RecipeSubscription@createRecipeSubscription');
+                Route::delete('', 'RecipeSubscription@deleteRecipeSubscription');
+            });
+            
+            Route::group(['prefix' => 'metric/{recipeId}'], function($router){
+                Route::post('', 'RecipeMetric@createRecipeMetric');
+                Route::delete('', 'RecipeMetric@deleteRecipeMetric');
+            });
+        });
+    });
 });

@@ -4,20 +4,23 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersTable extends Migration{
+class CreateRecipeStep extends Migration{
     /**
      * Run the migrations.
      *
      * @return void
      */
     public function up(){
-        Schema::create('users', function(Blueprint $table){
+        Schema::create('recipe_step', function(Blueprint $table){
             $table->bigIncrements('id');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->string('name')->nullable();
-            $table->text('image')->nullable();
+            $table->bigInteger('recipe_id');
+            $table->integer('step');
+            $table->text('image');
+            $table->text('description')->nullable();
             $table->timestamps();
+
+            $table->index('recipe_id');
+            $table->unique(['recipe_id', 'step']);
         });
     }
 
@@ -27,6 +30,6 @@ class CreateUsersTable extends Migration{
      * @return void
      */
     public function down(){
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('recipe_step');
     }
 }
