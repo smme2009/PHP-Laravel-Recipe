@@ -103,7 +103,7 @@ class Recipe extends Controller
     }
 
     public function getRecipe($recipeId){
-        $model = ModelRecope::find($recipeId);
+        $model = ModelRecope::with(['ingredient', 'step'])->find($recipeId);
 
         if($model == false){
             return Response::json(['message' => '查無此食譜'], 404);
