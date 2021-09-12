@@ -169,7 +169,7 @@ class Recipe extends Controller
     }
 
     private function saveBase64File($fullString){
-        if(filter_var('', FILTER_VALIDATE_URL)){
+        if(filter_var($fullString, FILTER_VALIDATE_URL)){
             preg_match('/^.*storage\/(.*)$/', $fullString, $data);
             list($fullString, $filePath) = $data;
         }else{
