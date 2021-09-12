@@ -14,7 +14,7 @@ class Cors{
      */
     public function handle($request, Closure $next){
         $cors = $next($request)
-            ->header('Access-Control-Allow-Origin', '*')
+            ->header('Access-Control-Allow-Origin', env('FRONTEND_URL'))
             ->header('Access-Control-Allow-Methods', '*')
             ->header('Access-Control-Allow-Headers', 'Origin, Methods, Content-Type, Authorization')
             ->header('Access-Control-Allow-Credentials', true);
