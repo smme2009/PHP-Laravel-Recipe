@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 
-Route::group(['middleware' => ['api', 'jwt.auth'], 'namespace' => 'Api'], function($router){
+Route::group(['middleware' => ['api', 'jwt'], 'namespace' => 'Api'], function($router){
     Route::group(['namespace' => 'User'], function($router){
             Route::post('logout', 'Auth@logout');
             Route::post('userinfo', 'Auth@getUserInfo');

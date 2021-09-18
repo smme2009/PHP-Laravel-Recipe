@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
+use Jwt;
 use Request;
 use Response;
 
@@ -13,11 +14,13 @@ class Auth extends Controller
     }
 
     public function login(){
+        $time = time();
+
         $requestDatas = Request::all();
 
-        $apiKey = $this->getApiKey($requestDatas);
-
-        if($apiKey == false){
+        $check = $this->checkUser($requestDatas);
+        
+        if($check == false){
             $responseDatas = [
                 'message' => '登入失敗',
             ];
@@ -25,9 +28,11 @@ class Auth extends Controller
             return Response::json($responseDatas, 401);
         }
 
+        $token = JWT::getJwt(['aid' => auth()->id()]);
+
         $responseDatas = [
             'message' => '登入成功',
-            'api_key' => $apiKey,
+            'api_key' => $token,
         ];
 
         return Response::json($responseDatas, 200);
@@ -53,12 +58,12 @@ class Auth extends Controller
         return Response::json($userInfo, 200);
     }
 
-    private function getApiKey($requestDatas){
-        $apiKey = auth()->attempt([
+    private function checkUser($requestDatas){
+        $check = auth()->attempt([
             'email' => $requestDatas['email'],
             'password' => $requestDatas['password'],
         ]);
 
-        return $apiKey;
+        return $check;
     }
 }
