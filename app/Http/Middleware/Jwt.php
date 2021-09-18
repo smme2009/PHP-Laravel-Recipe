@@ -16,7 +16,7 @@ class Jwt{
     public function handle($request, Closure $next){
         $auth = $request->header('Authorization');
 
-        preg_match('/^Bearer (.*)$/', $auth, $data);
+        preg_match('/(?i)^Bearer (.*)$/', $auth, $data);
         list($auth, $token) = $data;
 
         $accountId = JwtTool::getAccountId($token);
